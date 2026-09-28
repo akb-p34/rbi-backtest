@@ -7,7 +7,7 @@ I built a Python backtest for an intraday momentum pattern on Interactive Broker
 | Before the fix (`evidence/before-backtestIBKR/`) | 14 | 100.0% | inf | +1.89% |
 | After the fix (`evidence/after-backtestNew/`) | 17 | 29.41% | 0.086 | -0.64% |
 
-Both rows come straight from the metrics files saved next to each version on June 20, 2025. The folders in `evidence/` keep the names from my private repository, and the four files are unchanged from that day's commit.
+Both rows come straight from the metrics files saved next to each version on June 20, 2025. The four files in `evidence/` are unchanged from that day's commit; only `before-` and `after-` were added to the folder names. The old metrics code was broken too, which is why the before file shows a 66.4% drawdown next to a 100% win rate. Both versions' metrics were fixed later.
 
 ## What the bug was
 
@@ -23,7 +23,7 @@ My fix (`evidence/after-backtestNew/backtest.py`) decides entries from the bar's
 
 - Enter on the bar's open, never its close or high.
 - Detect the pattern from finished bars only.
-- Process signals from all symbols together, in time order, so trades compete for cash in the order they happened.
+- Process signals from all symbols together, in time order.
 - Treat a win rate over 90%, an infinite profit factor or a zero drawdown as a bug until proven otherwise.
 
 ## The strategy
@@ -49,9 +49,19 @@ Full year 2025, the same five stocks, $100,000 starting cash (`results/`):
 
 The best of 18 configurations made +0.65% for the year. That isn't an edge. This pattern, coded this way, doesn't make money on these stocks.
 
-## Known issue
+## Known issues
 
 The rebuild still has a small leak. The near-20-MA check (`backtest/backtest.py`, lines 257 and 395) uses the entry bar's close, while the fill happens at that bar's open (line 490). A clean version would use the previous bar's close. I haven't re-run the numbers above with that change.
+
+Three more things a clean version would fix:
+
+- **The 1.5R target isn't quite 1.5R.** Risk and target are set from the trigger price (lines 391-392), but the fill is at the open (line 490), which is always above the trigger. Every trade risks a little more and aims a little lower than the label says. It shows in the results: strategy A's average win is $50.83 against an average loss of $68.32.
+- **Trades never overlap.** The simulator runs each trade to its exit and adds the proceeds back to cash (line 541) before it sizes the next signal, even when that signal came first. Positions never compete for cash, and later trades are sized with money from exits that hadn't happened yet.
+- **Stops fill at the stop price even when a bar gaps through it** (`backtest/strategies.py`, lines 43-46), which makes losses look smaller than they'd be.
+
+## Sharing
+
+All rights reserved. There's no open-source license.
 
 ## Running it
 

@@ -1,0 +1,6 @@
+backtest/data/
+backtest/reports/
+*.db
+__pycache__/
+*.pyc
+.DS_Store

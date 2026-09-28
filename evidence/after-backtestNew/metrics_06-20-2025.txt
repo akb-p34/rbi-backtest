@@ -1,0 +1,25 @@
+Start Date: 5/1/2025
+End Date: 5/30/2025
+Business Days: 22
+Starting Cash: $100,000
+Pattern Violations: 0
+
+=== Best Case Portfolio Performance Metrics ===
+Full Trades: 17
+Win Rate: 29.41%
+Total Simple Return: -0.64%
+Profit Factor: 0.086
+Sharpe Ratio: -9.994
+Max Drawdown: 0.65%
+Total P&L: -$641.25
+Total Commissions Paid: $36.02
+
+=== Worst Case Portfolio Performance Metrics ===
+Full Trades: 17
+Win Rate: 29.41%
+Total Simple Return: -0.66%
+Profit Factor: 0.084
+Sharpe Ratio: -9.979
+Max Drawdown: 0.66%
+Total P&L: -$655.59
+Total Commissions Paid: $36.02

@@ -1,0 +1,12 @@
+# RBI Backtest Dependencies
+
+# Core
+pandas>=2.0.0
+numpy>=1.24.0
+pytz>=2023.0
+
+# IBKR connection
+ib_insync>=0.9.86
+
+# Visualization (for HTML reports)
+plotly>=5.18.0
